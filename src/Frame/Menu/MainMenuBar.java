@@ -19,45 +19,14 @@ public class MainMenuBar extends JMenuBar {
 	}
 
 	private JMenu menu;
-	private JPanel MainPanel;
 
 	public MainMenuBar(){
 		this.add(initItem());
-		MainPanel = new MainPanel();
 	}
 
 	private JMenu initItem(){
 		menu = new JMenu("Mon CV");
-		menu.addMouseListener(new MouseListener() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JOptionPane jop = new JOptionPane();
-				jop.showMessageDialog(getMainPanel().getParent(),"mouseclicked", "mouseclicked", JOptionPane.INFORMATION_MESSAGE);
-			}
 
-			@Override
-			public void mousePressed(MouseEvent e) {
-				JOptionPane jop = new JOptionPane();
-				jop.showMessageDialog(getMainPanel().getParent(),"mousePressed", "mousePressed", JOptionPane.ERROR_MESSAGE);
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				JOptionPane jop = new JOptionPane();
-				jop.showMessageDialog(getMainPanel().getParent(),"mouseReleased", "mouseReleased", JOptionPane.INFORMATION_MESSAGE);
-
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-
-			}
-		});
 		return menu;
 	}
 

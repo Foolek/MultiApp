@@ -1,91 +1,282 @@
 package Frame.Pan.ChildPan.Applications;
 
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.lang.reflect.Array;
+import java.util.List;
 
-import static Frame.MainFrame.getMainPanel;
-import static Frame.Pan.MainPanel.getLeftPan;
 
-public class Calculatrice extends JPanel {
+public class Calculatrice extends JPanel{
 
-	private JLabel result;
+	private static JLabel result;
 	private JPanel clavier;
+	private String[] btn_string = {"7","8","9","4","5","6","1","2","3","0",".","=","+","-","*","/"};
+	private JButton[] buttonsNb = new JButton[btn_string.length];
+	private JPanel chiffres;
+	private JPanel operateurs;
+	private	Font police = new Font("Tahoma", Font.BOLD, 20);
 
 
-	/* Permet de récuperer MainFrame*/
-	private Component ancetre() {
-		return getMainPanel().getParent();
+	public static JLabel getResult() {
+		return result;
 	}
-
 
 	/* Constructeur par défaut */
 	public Calculatrice() {
+		// Couleur
+		this.setBackground(new Color(35, 63, 107));
 
-		// Agencement de la calculatrice
+
+		this.setPreferredSize(new Dimension(400,500));
+
+
+		////////////////////////////
+		/////// AGENCEMENT ///////
 		GridBagLayout gbl = new GridBagLayout();
-		GridBagConstraints gbc = new GridBagConstraints();
 		this.setLayout(gbl);
+		GridBagConstraints gbc = new GridBagConstraints();
 
-		gbc.gridy = 0;
+
+
+
 		gbc.gridx = 0;
-
-		gbc.gridwidth = 100;
-		gbc.gridheight = 100;
-
-		this.add(screenResult(), gbc);
-
 		gbc.gridy = 1;
-		this.add(keypad(), gbc);
+		gbc.gridwidth = 1;
+		gbc.gridheight = 1;
+
+		this.add(keypad(),gbc);
+		initActionList();
+
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.gridwidth = 1;
+		gbc.gridheight = 1;
+
+		this.add(screenResult());
+		/////// FIN DE L'AGENCEMENT ///////
+		///////////////////////////////////
 
 
 	}
 
 
-	/* Écran du résultat */
-	private JLabel screenResult(){
-		JLabel result = new JLabel("ECRAN RESULTAT");
 
-		// Affichage du texte
-		result.setHorizontalAlignment(SwingConstants.CENTER); // le contenu du label sera centré (texte)
+
+	/* ÉCRAN DU RÉSULTAT */
+	private JLabel screenResult() {
+		result = new JLabel();
 
 		// dimensions
 		result.setPreferredSize(new Dimension(400,100));
 
+		// Affichage du texte
+		result.setFont(police);
+		result.setHorizontalAlignment(SwingConstants.CENTER); // le contenu du label sera centré (texte)
+
 		// Customisation du panel
 		result.setOpaque(true); // TRUE = setBackground visible
-		result.setBorder(new LineBorder(Color.black, 3,false));
+		result.setBorder(new LineBorder(Color.black, 1,false));
 		result.setBackground(Color.yellow);
+
 
 		return result;
 	}
 
 
-	/* Clavier de boutons */
+
+
+	/* CLAVIER DE BOUTTONS */
 	private JPanel keypad(){
-		JPanel pad = new JPanel();
-		pad.setPreferredSize(new Dimension(400,500));
+		clavier = new JPanel();
+		clavier.setPreferredSize(new Dimension(400,400));
+		clavier.setOpaque(true);
 
-		this.add();
-		return pad;
+
+		/////// AGENCEMENT ///////
+		GridBagLayout gbl = new GridBagLayout();
+		clavier.setLayout(gbl);
+		GridBagConstraints gbc = new GridBagConstraints();
+
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+
+		gbc.gridwidth = 1;
+		gbc.gridheight = 1;
+
+
+
+		clavier.add(btnchiffres(),gbc);
+
+		gbc.gridx = 1;
+		gbc.gridy = 0;
+
+
+		clavier.add(btnOperateur(), gbc);
+		/////// FIN DE L'AGENCEMENT ///////
+
+
+		return clavier;
 	}
 
-	/* Bouttons de 0 à 9*/
-	private JButton[] btnNmbr(){
-		JButton btn[] = new JButton[10];
 
-		for(int i = 0; i < btn.length; i++){
-			btn[i] = new JButton(""+i);
+
+
+	/* BOUTONS DU CLAVIER (CHIFFRES) */
+	private JPanel btnchiffres(){
+		chiffres = new JPanel();
+
+		// DIMENSION
+		chiffres.setPreferredSize(new Dimension(300,400));
+
+		// AGENCEMENT
+		chiffres.setLayout(new GridLayout(0,3));
+
+
+
+		for(int i = 0; i < 12; i++ ){
+			buttonsNb[i] = new JButton();
+
+			buttonsNb[i].setFont(police);
+			buttonsNb[i].setText(btn_string[i]);
+
+			chiffres.add(buttonsNb[i]);
 		}
-		System.out.println(btn);
 
-		return btn;
+		return chiffres;
 	}
+
+
+
+	/* BOUTONS DU CLAVIER (OPERATEUR) */
+	private JPanel btnOperateur(){
+		operateurs = new JPanel();
+		operateurs.setPreferredSize(new Dimension(100,400));
+
+
+
+		///////////////////////////
+		/////// AGENCEMENT ///////
+
+		GridBagLayout glb = new GridBagLayout();
+		operateurs.setLayout(glb);
+
+		GridBagConstraints gbc = new GridBagConstraints();
+
+		int x = 0;
+		int y = 0;
+
+		for (int i = 12; i < btn_string.length; i++ ){
+			buttonsNb[i] = new JButton();
+			buttonsNb[i].setPreferredSize(new Dimension(100,100));
+
+			buttonsNb[i].addMouseListener(new btnMouseListener());
+
+
+			buttonsNb[i].setText(btn_string[i]);
+			buttonsNb[i].setFont(police);
+
+
+
+			gbc.gridx = x;
+			gbc.gridy = y;
+
+			operateurs.add(buttonsNb[i], gbc);
+
+			y++;
+		}
+
+		/////// FIN DE L'AGENCEMENT ///////
+		//////////////////////////////////
+
+		return operateurs;
+	}
+
+
+
+	/* Action Listener des boutons*/
+	public void initActionList(){
+		for (int i = 0; i < 11; i ++){
+			buttonsNb[i].addActionListener(new BoutonListener());
+			buttonsNb[i].addMouseListener(new btnMouseListener());
+		}
+
+
+		for (JButton btn:
+		     buttonsNb) {
+			switch (btn.getActionCommand()){
+				case "=":
+					btn.addMouseListener(new btnMouseListener());
+				case "+":
+				case "x":
+				case "-":
+				case "/":
+			}
+		}
+	}
+
+	/* Ajout d'une classe anonyme implémentant l'ActionListener */
+	class BoutonListener implements ActionListener{
+		String valTemp = new String();
+		String valFinal = new String();
+		int[] valInt;
+		Array[] test;
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			valTemp = e.getActionCommand();
+			valFinal = result.getText() + valTemp;
+
+
+
+			switch(e.getActionCommand()){
+				case "+":
+				case "-":
+				case "x":
+				case "/":
+				case "=":
+
+			}
+
+			result.setText(valFinal);
+
+		}
+	}
+
+	class btnMouseListener implements MouseListener{
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			return;
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			return;
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			return;
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			e.getComponent().setBackground(new Color(211, 227, 195));
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			e.getComponent().setBackground(null); // background par défaut
+		}
+	}
+
+
+
 
 
 

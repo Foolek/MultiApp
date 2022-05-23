@@ -7,14 +7,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static Frame.MainFrame.getMainPanel;
 
 public class MainPanel extends JPanel {
 
-	private final static LeftChild leftPan = new LeftChild();
-	private final static RightChild rightPan = new RightChild();
+	private static LeftChild leftPan;
+	private static RightChild rightPan;
 
 	public static LeftChild getLeftPan() {
 		return leftPan;
@@ -41,6 +42,8 @@ public class MainPanel extends JPanel {
 		// Ajout de composants
 		this.add(panGauche());
 		this.add(panDroite());
+
+
 	}
 
 	/* initialisation des composants */
@@ -50,8 +53,12 @@ public class MainPanel extends JPanel {
 		return leftPan;
 	}
 	// panel droite
-	private RightChild panDroite(){
+	private RightChild panDroite() {
 		RightChild rightPan = new RightChild();
+		return rightPan;
+	}
+
+	public static RightChild getRightPan() {
 		return rightPan;
 	}
 }

@@ -3,6 +3,9 @@ import Frame.MainFrame;
 import javax.swing.*;
 
 public class Main {
+
+	private static MainFrame mainFrame = new MainFrame();
+
 	public static void main(String[] args) {
 		run();
 	}
@@ -11,8 +14,12 @@ public class Main {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				new MainFrame().setVisible(true);
+				mainFrame.setVisible(true);
 			}
 		});
+	}
+
+	private static MainFrame getMainFrame() {
+		return mainFrame;
 	}
 }

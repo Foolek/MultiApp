@@ -1,15 +1,17 @@
 package Frame;
 import Frame.Menu.MainMenuBar;
+import Frame.Pan.ChildPan.Applications.Calculatrice;
 import Frame.Pan.MainPanel;
+import com.sun.tools.javac.Main;
+import Frame.Pan.ChildPan.Applications.Calculatrice;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
-
-
-
-public class MainFrame extends JFrame {
-
+public class MainFrame extends JFrame implements ActionListener {
 
 
 	// Dimensions de l'écran de l'utilisateur
@@ -17,8 +19,8 @@ public class MainFrame extends JFrame {
 	int monitorWidth = monitorSize.width;
 	int monitorHeight = monitorSize.height;
 
-	private final static JPanel mainPanel = new MainPanel();
-	private final static JMenuBar mainJmenu = new MainMenuBar();
+	public static MainPanel mainPanel;
+	private static JMenuBar mainJmenu = new MainMenuBar();
 
 
 
@@ -32,8 +34,8 @@ public class MainFrame extends JFrame {
 		this.setName("Fenetre");
 
 		// Panel & barre de menu
-		this.setContentPane(mainPanel);
 		this.setLayout(new GridBagLayout());
+		this.setContentPane(new MainPanel());
 		this.setJMenuBar(mainJmenu);
 
 		// Dimensions & agencement
@@ -43,11 +45,16 @@ public class MainFrame extends JFrame {
 	}
 
 
+
+
 	/* Permet de récupérer le mainPanel dans d'autres classes*/
 	public static JPanel getMainPanel() {return mainPanel;}
 
 
 
 
-
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Calculatrice.getResult().setText("test");
+	}
 }

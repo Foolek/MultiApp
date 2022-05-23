@@ -5,16 +5,13 @@ import Frame.Pan.MainPanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import static Frame.MainFrame.getMainPanel;
 
 public class RightChild extends JPanel {
 
-
-	/* Permet de récuperer MainFrame*/
-	private Component ancetre(){
-		return getMainPanel().getParent();
-	}
+	private static Calculatrice cal = new Calculatrice();
 
 	/* Constructeur par défaut */
 	public RightChild(){
@@ -25,7 +22,13 @@ public class RightChild extends JPanel {
 
 		this.setPreferredSize(new Dimension(800,800));
 
-		this.add(new Calculatrice());
+		this.setLayout(new BorderLayout())
+		;
+		this.add(cal, BorderLayout.CENTER);
 	}
 
+
+	public static Calculatrice getCal() {
+		return cal;
+	}
 }

@@ -21,5 +21,8 @@ public class LeftChild extends JPanel {
 
 		this.setBackground(new Color(185, 205, 237));
 
+
+
+
 	}
 }

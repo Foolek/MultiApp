@@ -8,41 +8,40 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.List;
 
 
 public class Calculatrice extends JPanel{
 
-	private static JLabel result;
-	private JPanel clavier;
-	private String[] btn_string = {"7","8","9","4","5","6","1","2","3","0",".","=","+","-","*","/"};
-	private JButton[] buttonsNb = new JButton[btn_string.length];
-	private JPanel chiffres;
+	private static JLabel result; // Affichage de la calculatrice
+
+	private JPanel clavier; // contient Jpanel chiffres et Jpanel operateurs
+	private JPanel chiffres; // contient btnNombres
 	private JPanel operateurs;
+	private String[] btn_string = {"7","8","9","4","5","6","1","2","3","0",".","=","C","+","-","X","/"};
+	private JButton[] btnNombres = new JButton[btn_string.length];
+
+	private boolean clicOperateur = false, update = false;
+
+	private double chiffre1; // Va servir à mettre la valeur entrée de côté pour être réutiliser lors de la selection d'un opérateur
+
 	private	Font police = new Font("Tahoma", Font.BOLD, 20);
 
 
-	public static JLabel getResult() {
-		return result;
-	}
 
 	/* Constructeur par défaut */
+
 	public Calculatrice() {
-		// Couleur
 		this.setBackground(new Color(35, 63, 107));
-
-
 		this.setPreferredSize(new Dimension(400,500));
 
 
-		////////////////////////////
-		/////// AGENCEMENT ///////
+		// AGENCEMENT
 		GridBagLayout gbl = new GridBagLayout();
 		this.setLayout(gbl);
 		GridBagConstraints gbc = new GridBagConstraints();
-
-
-
 
 		gbc.gridx = 0;
 		gbc.gridy = 1;
@@ -58,10 +57,14 @@ public class Calculatrice extends JPanel{
 		gbc.gridheight = 1;
 
 		this.add(screenResult());
-		/////// FIN DE L'AGENCEMENT ///////
-		///////////////////////////////////
+	}
 
 
+
+
+	/* Getter */
+	public static JLabel getResult() {
+		return result;
 	}
 
 
@@ -76,7 +79,7 @@ public class Calculatrice extends JPanel{
 
 		// Affichage du texte
 		result.setFont(police);
-		result.setHorizontalAlignment(SwingConstants.CENTER); // le contenu du label sera centré (texte)
+		result.setHorizontalAlignment(SwingConstants.RIGHT); // le contenu du label sera centré (texte)
 
 		// Customisation du panel
 		result.setOpaque(true); // TRUE = setBackground visible
@@ -136,19 +139,17 @@ public class Calculatrice extends JPanel{
 		// AGENCEMENT
 		chiffres.setLayout(new GridLayout(0,3));
 
-
-
 		for(int i = 0; i < 12; i++ ){
-			buttonsNb[i] = new JButton();
+			btnNombres[i] = new JButton();
 
-			buttonsNb[i].setFont(police);
-			buttonsNb[i].setText(btn_string[i]);
-
-			chiffres.add(buttonsNb[i]);
+			btnNombres[i].setFont(police);
+			btnNombres[i].setText(btn_string[i]);
+			btnNombres[i].setFocusPainted(false);
+			chiffres.add(btnNombres[i]);
 		}
-
 		return chiffres;
 	}
+
 
 
 
@@ -157,94 +158,81 @@ public class Calculatrice extends JPanel{
 		operateurs = new JPanel();
 		operateurs.setPreferredSize(new Dimension(100,400));
 
-
-
-		///////////////////////////
-		/////// AGENCEMENT ///////
-
 		GridBagLayout glb = new GridBagLayout();
 		operateurs.setLayout(glb);
-
 		GridBagConstraints gbc = new GridBagConstraints();
 
-		int x = 0;
-		int y = 0;
+		int x = 0; // X alignement
+		int y = 0; // Y alignement
 
 		for (int i = 12; i < btn_string.length; i++ ){
-			buttonsNb[i] = new JButton();
-			buttonsNb[i].setPreferredSize(new Dimension(100,100));
+			btnNombres[i] = new JButton();
 
-			buttonsNb[i].addMouseListener(new btnMouseListener());
+			btnNombres[i].setText(btn_string[i]);
+			btnNombres[i].setFont(police);
+			btnNombres[i].setPreferredSize(new Dimension(100,400/5));
+			btnNombres[i].setFocusPainted(false);
 
-
-			buttonsNb[i].setText(btn_string[i]);
-			buttonsNb[i].setFont(police);
-
-
+			switch (i){
+				case 12:
+					btnNombres[i].setForeground(Color.RED);
+			}
 
 			gbc.gridx = x;
 			gbc.gridy = y;
 
-			operateurs.add(buttonsNb[i], gbc);
+			operateurs.add(btnNombres[i], gbc);
 
 			y++;
 		}
-
-		/////// FIN DE L'AGENCEMENT ///////
-		//////////////////////////////////
-
 		return operateurs;
 	}
 
 
 
+
 	/* Action Listener des boutons*/
 	public void initActionList(){
-		for (int i = 0; i < 11; i ++){
-			buttonsNb[i].addActionListener(new BoutonListener());
-			buttonsNb[i].addMouseListener(new btnMouseListener());
-		}
 
-
-		for (JButton btn:
-		     buttonsNb) {
-			switch (btn.getActionCommand()){
-				case "=":
-					btn.addMouseListener(new btnMouseListener());
-				case "+":
-				case "x":
-				case "-":
-				case "/":
-			}
+//		for (int i = 0; i < 10; i ++){
+//			btnNombres[i].addActionListener(new BoutonListener());
+//		}
+		for (int i = 0; i < btn_string.length; i ++){
+			btnNombres[i].addActionListener(new BoutonListener());
+			btnNombres[i].addMouseListener(new btnMouseListener());
 		}
 	}
 
 	/* Ajout d'une classe anonyme implémentant l'ActionListener */
 	class BoutonListener implements ActionListener{
-		String valTemp = new String();
-		String valFinal = new String();
-		int[] valInt;
-		Array[] test;
+		String valeurDuBoutton = new String();
+		String valAffichee = new String();
+		double doubleVal;
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			valTemp = e.getActionCommand();
-			valFinal = result.getText() + valTemp;
+			valeurDuBoutton = e.getActionCommand(); // la valeur du boutton = valeur affichée sur le bouton
+			valAffichee = result.getText() + valeurDuBoutton; // la valeur affichée => Récupération du Text affiché à l'écran à laquel on ajoute une nouvelle valeur de bouton
+			doubleVal = Double.valueOf(valAffichee).doubleValue(); // Conversion de la valeur affichée en double
 
 
-
-			switch(e.getActionCommand()){
+			switch (e.getActionCommand()){
 				case "+":
+					doubleVal = doubleVal + Double.valueOf(result.getText()).doubleValue();
+				case "X":
 				case "-":
-				case "x":
-				case "/":
 				case "=":
-
+				case "C":
+				default:
+					result.setText(valAffichee);
+					break;
 			}
 
-			result.setText(valFinal);
-
 		}
+
+
+
+
 	}
 
 	class btnMouseListener implements MouseListener{

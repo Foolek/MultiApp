@@ -1,30 +1,14 @@
 package Frame.Pan;
 
-import Frame.Pan.ChildPan.LeftChild;
-import Frame.Pan.ChildPan.RightChild;
+import Frame.Pan.Applications.Calculatrice;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.util.ArrayList;
-
-import static Frame.MainFrame.getMainPanel;
 
 public class MainPanel extends JPanel {
 
-	private static LeftChild leftPan;
-	private static RightChild rightPan;
-
-	public static LeftChild getLeftPan() {
-		return leftPan;
-	}
-
-	/* Permet de récuperer MainFrame*/
-	private Component ancetre(){
-		return getMainPanel().getParent();
-	}
+	private JPanel leftPan;
+	private JPanel rightPan;
 
 
 	/* Constructeur par défaut */
@@ -33,32 +17,77 @@ public class MainPanel extends JPanel {
 		this.setName("MainPan");
 
 		// Couleurs
-		this.setBackground(new Color(66, 135, 245));
+		this.setBackground(Color.darkGray);
 
 		// Dimensions & agencement
-		GridBagLayout gbd = new GridBagLayout();
-		this.setLayout(gbd);
+		this.setPreferredSize(new Dimension(1200,1000));
+
+		GridBagLayout gbl = new GridBagLayout();
+		this.setLayout(gbl);
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbl.setConstraints(this, gbc);
+
+		gbc.fill = gbc.BOTH;
+		gbc.anchor = gbc.FIRST_LINE_START;
+
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+
+		gbc.weightx = 0;
+		gbc.weighty = 0;
+
+		gbc.gridwidth = 1;
+		gbc.gridheight = 1;
+
 
 		// Ajout de composants
-		this.add(panGauche());
-		this.add(panDroite());
+		this.add(panMenu(), gbc);
 
+		gbc.gridx = 1;
+		gbc.gridy = 0;
+		gbc.weightx = 1;
+		gbc.weighty = 1;
+		gbc.gridwidth = 1;
+		gbc.gridheight = 1;
 
+		this.add(panAffichage(), gbc);
 	}
 
-	/* initialisation des composants */
-	// panel gauche
-	private LeftChild panGauche(){
-		LeftChild leftPan = new LeftChild();
+
+	/* Panneau Gauche */
+	private JPanel panMenu(){
+		leftPan = new JPanel();
+
+		leftPan.setBackground(new Color(185, 205, 237));
+		leftPan.setPreferredSize(new Dimension(300,0));
+
+		GridBagLayout gbl = new GridBagLayout();
+		leftPan.setLayout(gbl);
+		GridBagConstraints gbc = new GridBagConstraints();
+
+		gbc.weightx = 0;
+		gbc.weighty = 0;
+
+		gbl.setConstraints(leftPan, gbc);
+
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+
+		gbc.gridwidth = 1;
+		gbc.gridheight = 1;
+
 		return leftPan;
 	}
-	// panel droite
-	private RightChild panDroite() {
-		RightChild rightPan = new RightChild();
-		return rightPan;
-	}
 
-	public static RightChild getRightPan() {
+
+	/* Panneau Droite */
+	private JPanel panAffichage(){
+		rightPan = new JPanel();
+
+		rightPan.setBackground(new Color(35, 63, 107));
+		rightPan.setLayout(new BorderLayout());
+		rightPan.add(new Calculatrice(), BorderLayout.CENTER);
+
 		return rightPan;
 	}
 }

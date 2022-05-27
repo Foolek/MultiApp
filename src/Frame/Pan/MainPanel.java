@@ -4,15 +4,17 @@ import Frame.Pan.Applications.Calculatrice;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 public class MainPanel extends JPanel {
 
 	private JPanel leftPan;
-	private JPanel rightPan;
+	private RightChild 	rightPan;
+	private final Font police = new Font("Tahoma", Font.BOLD, 20);
 
 
 	/* Constructeur par défaut */
-	public MainPanel(){
+	public MainPanel() throws IOException {
 		// Attributs
 		this.setName("MainPan");
 
@@ -20,7 +22,7 @@ public class MainPanel extends JPanel {
 		this.setBackground(Color.darkGray);
 
 		// Dimensions & agencement
-		this.setPreferredSize(new Dimension(1200,1000));
+		this.setPreferredSize(new Dimension(1500,1200));
 
 		GridBagLayout gbl = new GridBagLayout();
 		this.setLayout(gbl);
@@ -76,18 +78,43 @@ public class MainPanel extends JPanel {
 		gbc.gridwidth = 1;
 		gbc.gridheight = 1;
 
+		String[] a = {"adil", "adil", "adil", "adil", "adil", "adil", "adil", "adil"};
+		JLabel[] t = new JLabel[a.length];
+		JSeparator[] c = new JSeparator[a.length];
+
+		for (int i = 0; i < 5; i++){
+			t[i] = new JLabel(a[i]);
+			t[i].setHorizontalAlignment(SwingConstants.CENTER);
+
+			t[i].setPreferredSize(new Dimension(300, 100));
+			leftPan.add(t[i], gbc);
+			gbc.gridy++;
+
+		}
 		return leftPan;
 	}
 
 
-	/* Panneau Droite */
-	private JPanel panAffichage(){
-		rightPan = new JPanel();
 
-		rightPan.setBackground(new Color(35, 63, 107));
+
+	/* Panneau Droite */
+	private JPanel panAffichage() throws IOException {
+		rightPan = new RightChild() {
+			@Override
+			public void paintComponent(Graphics g) {
+				super.paintComponent(g);
+			}
+		};
+
+
 		rightPan.setLayout(new BorderLayout());
+
+
 		rightPan.add(new Calculatrice(), BorderLayout.CENTER);
 
 		return rightPan;
 	}
+
+
+
 }

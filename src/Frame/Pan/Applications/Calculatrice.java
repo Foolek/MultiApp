@@ -33,9 +33,6 @@ public class Calculatrice extends JPanel{
 	/* Constructeur par défaut */
 
 	public Calculatrice() {
-		this.setBackground(new Color(35, 63, 107));
-		this.setPreferredSize(new Dimension(400,500));
-
 
 		// AGENCEMENT
 		GridBagLayout gbl = new GridBagLayout();

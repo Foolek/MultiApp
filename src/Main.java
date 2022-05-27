@@ -1,10 +1,19 @@
 import Frame.MainFrame;
 
 import javax.swing.*;
+import java.io.IOException;
 
 public class Main {
 
-	private static MainFrame mainFrame = new MainFrame();
+	private static MainFrame mainFrame;
+
+	static {
+		try {
+			mainFrame = new MainFrame();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
 	public static void main(String[] args) {
 		run();

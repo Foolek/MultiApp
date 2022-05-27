@@ -4,6 +4,7 @@ import Frame.Pan.MainPanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 
 public class MainFrame extends JFrame {
@@ -20,7 +21,7 @@ public class MainFrame extends JFrame {
 
 
 	/* Constructeur par défaut */
-	public MainFrame(){
+	public MainFrame() throws IOException {
 		// A la fermeture
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -35,6 +36,7 @@ public class MainFrame extends JFrame {
 
 		// Dimensions & agencement
 		this.setResizable(true);
+		this.setMinimumSize(new Dimension(700,600));
 		this.setLocation(monitorWidth/3,monitorHeight/5);
 		this.pack(); // la taille de la JFrame sera relative à celle de ces composants
 	}

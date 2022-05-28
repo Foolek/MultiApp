@@ -60,7 +60,7 @@ public class MainPanel extends JPanel {
 	private JPanel panMenu(){
 		leftPan = new JPanel();
 
-		leftPan.setBackground(new Color(185, 205, 237));
+		leftPan.setBackground(new Color(102,162,186));
 		leftPan.setPreferredSize(new Dimension(300,0));
 
 		GridBagLayout gbl = new GridBagLayout();
@@ -107,10 +107,10 @@ public class MainPanel extends JPanel {
 		};
 
 
-		rightPan.setLayout(new BorderLayout());
+//		rightPan.setLayout(new BorderLayout());
 
 
-		rightPan.add(new Calculatrice(), BorderLayout.CENTER);
+		rightPan.add(new Calculatrice(), CENTER_ALIGNMENT);
 
 		return rightPan;
 	}

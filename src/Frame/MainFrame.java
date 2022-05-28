@@ -35,9 +35,8 @@ public class MainFrame extends JFrame {
 		this.setJMenuBar(mainJmenu);
 
 		// Dimensions & agencement
-		this.setResizable(true);
-		this.setMinimumSize(new Dimension(700,600));
-		this.setLocation(monitorWidth/3,monitorHeight/5);
+		this.setResizable(false);
+		this.setLocation(monitorWidth/4,monitorHeight/18);
 		this.pack(); // la taille de la JFrame sera relative à celle de ces composants
 	}
 

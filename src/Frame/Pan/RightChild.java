@@ -10,7 +10,7 @@ public abstract class RightChild extends JPanel {
 	public void paintComponent(Graphics g){
 		try {
 			Image img = ImageIO.read(new File("C:\\Users\\Foolek\\Documents\\GitHub\\MultiApp\\src\\images\\index.jpg"));
-			g.drawImage(img, 0, 0, getWidth(),getHeight(), this);
+			g.drawImage(img, 0, 0, 1200,1200, this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -1,6 +1,4 @@
-package Frame.Pan.Applications;
-
-import Frame.Pan.MainPanel;
+package Frame.Panneaux.Applications;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -339,10 +337,4 @@ public class Calculatrice extends JPanel{
 			e.getComponent().setBackground(null); // background par défaut
 		}
 	}
-
-
-
-
-
-
 }

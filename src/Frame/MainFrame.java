@@ -1,6 +1,5 @@
 package Frame;
-import Frame.Menu.MainMenuBar;
-import Frame.Pan.MainPanel;
+import Frame.Panneaux.MainPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +15,6 @@ public class MainFrame extends JFrame {
 	int monitorHeight = monitorSize.height;
 
 	public static JPanel mainPanel = new JPanel();
-	private static JMenuBar mainJmenu = new MainMenuBar();
 
 
 
@@ -32,11 +30,11 @@ public class MainFrame extends JFrame {
 		// Panel & barre de menu
 		this.setLayout(new GridBagLayout());
 		this.setContentPane(new MainPanel());
-		this.setJMenuBar(mainJmenu);
 
 		// Dimensions & agencement
 		this.setResizable(false);
-		this.setLocation(monitorWidth/4,monitorHeight/18);
+//		this.setLocation(monitorWidth/4,monitorHeight/18); A remettre
+		this.setLocation(monitorWidth/50,monitorHeight/18);
 		this.pack(); // la taille de la JFrame sera relative à celle de ces composants
 	}
 

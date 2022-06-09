@@ -1,6 +1,5 @@
 package Frame.Panneaux;
 
-import Frame.Panneaux.Applications.Calculatrice;
 import Frame.Panneaux.MainPanChild.LeftPanel;
 import Frame.Panneaux.MainPanChild.RightPanel;
 
@@ -11,8 +10,8 @@ public class MainPanel extends JPanel {
 
 	public static RightPanel rightpan = new RightPanel();
 
-	private final Font police = new Font("Tahoma", Font.BOLD, 20);
-
+	static int w = 1400;
+	static int h = 900;
 
 
 	/* Constructeur par défaut */
@@ -39,12 +38,7 @@ public class MainPanel extends JPanel {
 		this.add(rightpan, gbc);
 
 		this.setBackground(Color.darkGray);
-		this.setPreferredSize(new Dimension(1500,1200));
+		this.setPreferredSize(new Dimension(w,h));
 	}
-
-	public static RightPanel getRightpan() {
-		return rightpan;
-	}
-
 
 }

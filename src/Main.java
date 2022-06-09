@@ -26,8 +26,6 @@ public class Main {
 				mainFrame.setVisible(true);
 			}
 		});
-
-
 	}
 
 	private static MainFrame getMainFrame() {

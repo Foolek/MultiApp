@@ -39,9 +39,4 @@ public class MainFrame extends JFrame {
 	}
 
 
-
-
-	/* Permet de récupérer le mainPanel dans d'autres classes*/
-	public static JPanel getMainPanel() {return mainPanel;}
-
 }
